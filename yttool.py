@@ -6,6 +6,7 @@ Author: Willem Hengeveld <itsme@xs4all.nl>
 
 """
 
+import io
 import urllib.request
 import urllib.parse
 import http.cookiejar
@@ -788,6 +789,7 @@ def channelurl_from_userpage(cfg):
 
 def main():
     import argparse
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')
     parser = argparse.ArgumentParser(description='Extract Youtube comments')
     parser.add_argument('--debug', '-d', action='store_true', help='print all intermediate steps')
     parser.add_argument('--verbose', '-v', action='store_true', help='prefix each line with the timestamp')
@@ -803,8 +805,6 @@ def main():
     args = parser.parse_args()
 
     yt = Youtube(args)
-
-
 
     for url in args.ytids:
         if len(args.ytids) > 1:
