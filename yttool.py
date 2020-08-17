@@ -20,6 +20,10 @@ from xml.parsers.expat import ParserCreate
 
 import http.client
 
+proxies = {
+            "http": "socks5://127.0.0.1:1080",
+            "https": "socks5://127.0.0.1:1080",
+          }
 
 def cvdate(txt):
     """
@@ -80,6 +84,7 @@ class Youtube:
         self.args = args
         cj = http.cookiejar.CookieJar()
         handlers = [urllib.request.HTTPCookieProcessor(cj)]
+        handlers.append(urllib.request.ProxyHandler(proxies))
         if args.debug:
             handlers.append(urllib.request.HTTPSHandler(debuglevel=1))
         self.opener = urllib.request.build_opener(*handlers)
@@ -331,7 +336,7 @@ class CommentReader:
 
             js = json.loads(cmtjson)
 
-            cmtlist, cc = self.extractcomments(js) 
+            cmtlist, cc = self.extractcomments(js)
 
             for author, runs, subcc in cmtlist:
                 print("---" * (level+1) + ">", author)
