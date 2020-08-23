@@ -111,7 +111,13 @@ class Youtube:
             kwargs["data"] = data
 
         response = self.opener.open(req, **kwargs)
-        return response.read()
+        try:
+            page = response.read()
+        except http.client.IncompleteRead as e:
+            page = e.partial
+            print("EXCEPTION FOUND: http.client.IncompleteRead")
+            pass
+        return page
 
     def getcomments(self, contclick, xsrf):
         """
