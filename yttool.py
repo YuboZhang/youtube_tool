@@ -319,6 +319,7 @@ class CommentReader:
         self.args = args
         self.yt = yt
         self.contclick, self.xsrf = self.getcommentinfo(cfg)
+        self.count = 0
 
     def printtextrun(self, runs):
         for r in runs:
@@ -341,9 +342,11 @@ class CommentReader:
 
             for author, runs, subcc in cmtlist:
                 print("---" * (level+1) + ">", author)
+                self.count = self.count + 1
                 self.printtextrun(runs)
                 if subcc:
                     self.recursecomments(subcc, level+1)
+        return self.count
 
     def getcontinuation(self, p):
         p = getitem(p, "continuations", 0, "nextContinuationData")
@@ -838,7 +841,8 @@ def main():
 
             if args.comments and idtype=='video':
                 cmt = CommentReader(args, yt, cfg)
-                cmt.recursecomments()
+                COUNT = cmt.recursecomments()
+                print("total comments number: ", COUNT)
             if args.subtitles and idtype=='video':
                 txt = SubtitleReader(args, yt, cfg)
                 txt.output()
