@@ -125,6 +125,11 @@ You can also call yttool with only the video id as an argument:
 
     yttool --info CSvFpBOe8eY
 
+## About the proxy
+
+To use this tool in China, a proxy is required.
+The default proxy address here is socks5://127.0.0.1:1080.
+You can set your own proxy by updating the variable 'proxies' in the front of file yttool.py.
 
 # How does it work?
 
