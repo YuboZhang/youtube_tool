@@ -407,6 +407,16 @@ class CommentReader:
             return [], None
         if "itemSectionContinuation" in p:
             p = p["itemSectionContinuation"]
+            if "header" in p:
+                #q = p["header"]
+                q = getitem(p, "header", "commentsHeaderRenderer")
+                if q:
+                    count = getitem(q, "commentsCount", "simpleText")
+                    print("commentsCount: %s" % count)
+                    r = getitem(q, "countText", "runs")
+                    if r:
+                        print("CountText: %s" % getitem(r[0], "text"))
+
         elif "commentRepliesContinuation" in p:
             p = p["commentRepliesContinuation"]
 
